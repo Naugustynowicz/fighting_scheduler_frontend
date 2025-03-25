@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+* {
+  color: #f0f0f0;
+  background-color: #0f0f0f;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+
+header {
+
+}
+
+nav {
+
+}
+
+body {
+  
+}
+
+section {
+  
+}
+
+ul {
+  padding: 0;
+}
+
+
+li {
+  list-style-type: none;
+}
+
+div {
+  background-color: darkgreen;
+  border: medium outset goldenrod;
+}
+
+div.button {
+  background-color: transparent;
+  border: medium none;
+}
+
+button {
+  background-color: #1f2f2f;
+  color: whitesmoke;
+  border-radius: 8px;
+}
+
+button:hover {
+  color: lightpink;
+  border-color: lightcoral;
+  background-color: black;
+}
+
+button:active {
+  color: red;
+  border-color: red;
+  background-color: black;
+}
+
+input {
+  border-radius: 8px;
+}
+
+input:hover {
+  color: lightpink;
+  border-color: lightcoral;
+  background-color: black;
+}
+
+input:focus {
+  color: lightpink;
+  border-color: lightcoral;
+  background-color: black;
+}
+
+h1 {
+  background-color: #1f2f2f;
+  color: whitesmoke;
+  border: medium outset whitesmoke;
+}
+
+h2 {
+  background-color: #1f2f2f;
+  color: whitesmoke;
+  border: medium outset whitesmoke;
+}
+
+p {
+
+}
+
+
+/*
+h1 + section {
+  background-color: red;
+}
+
+li {
+  list-style-type: none;
+}
+
+section.bracket div.tree-bracket div.tree-bracket div.tree-bracket {
+  color: green
+}
+
+button:hover {
+  color: blue
+}
+
+a {
+  color: skyblue;
+  text-decoration: underline skyblue;
+}
+
+a:hover {
+  color: violet;
+  text-decoration: underline violet;
+}
+*/
+
+@media (min-width: 30em) {
+  section {
+    padding: 0 5%;
+  }
+}
