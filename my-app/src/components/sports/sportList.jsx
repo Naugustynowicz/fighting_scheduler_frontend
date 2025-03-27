@@ -24,15 +24,15 @@ function Sport({ sport }) {
   let sportContent;
   if (isEditing) {
     sportContent = (
-      <section>
+      <section name='Editing_sport_information'>
       <div>
-        <input value={sport.name} onChange={e => {
+        <input value={sport.name} placeholder='name' onChange={e => {
           dispatch({ type: 'changed', sport: {
             ...sport,
             name: e.target.value
           } });
         }} />
-        <input type='text' value={sport.description} onChange={e => {
+        <input type='text' value={sport.description} placeholder='description' onChange={e => {
           dispatch({ type: 'changed', sport: {
             ...sport,
             description: e.target.value
@@ -69,12 +69,12 @@ function Sport({ sport }) {
     <section>
       {sportContent}
       <div>
-        <button onClick={() => {
+        <button label='Edit' onClick={() => {
           setIsEditing(true)
         }}>
           Edit
         </button>
-        <button onClick={() => dispatch( {
+        <button label='Delete' onClick={() => dispatch( {
             type: 'deleted',
             id: sport.id
         } )}>
