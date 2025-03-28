@@ -25,7 +25,6 @@ describe('Sports Component', () => {
     ];
 
     beforeEach(() => {
-      // We use mockResolvedValue to mock the API response.
       axios.get.mockResolvedValue({ data: mockSportList });
     });
 
