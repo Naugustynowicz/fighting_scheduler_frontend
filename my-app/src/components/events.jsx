@@ -8,6 +8,9 @@ import EventList from "./events/eventList";
 export default function Events(){
   return (
       <EventsProvider>
+        <head>
+          <title>Events</title>
+        </head>
         <NavBar />
         <main>
           <h1>Events</h1>

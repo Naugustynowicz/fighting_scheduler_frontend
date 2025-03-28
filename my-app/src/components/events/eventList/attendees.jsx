@@ -34,7 +34,8 @@ export default function Attendees({event_id}) {
     }, [])
 
   return (
-    <section>
+    <div title="Attendees' List">
+      <h3>Attendees' List</h3>
       <div class='container'>
       <ul>
         {attendees.map(attendee => (
@@ -44,7 +45,7 @@ export default function Attendees({event_id}) {
         ))}
       </ul>
       </div>
-    </section>
+    </div>
   );
 }
 

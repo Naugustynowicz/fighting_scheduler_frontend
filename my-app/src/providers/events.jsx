@@ -95,12 +95,10 @@ function eventsReducer(events, action) {
           description: action.description,
           rules: action.rules,
           schedule: action.schedule,
-          bracket: action.bracket,
-          user_id: action.userId,
-          status_d: action.statusId,
+          status_id: action.statusId,
           location_id: action.locationId,
           sport_id: action.sportId,
-          typeEvent_id: action.typeEventId
+          type_event_id: action.typeEventId
         }
       });
 
@@ -148,12 +146,10 @@ function eventsReducer(events, action) {
           description: action.description,
           rules: action.rules,
           schedule: action.schedule,
-          bracket: action.bracket,
-          user_id: action.userId,
           status_id: action.statusId,
           location_id: action.locationId,
           sport_id: action.sportId,
-          typeEvent_id: action.typeEventId
+          type_event_id: action.typeEventId
         }
       });
       return events;

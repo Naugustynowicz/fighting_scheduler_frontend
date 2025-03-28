@@ -84,12 +84,13 @@ export default function TreeBracket({event_id}) {
   }
 
   return (
-    <section class='bracket'>
+    <div title='Bracket'>
+      <h3>Bracket</h3>
       {displayTree(treeBracket)}
       <button onClick={() => { dispatch({ type: 'generateTreeBracket', event_id: const_event_id }); }}>
         generate bracket
       </button> 
-    </section>
+    </div>
   );
 }
 

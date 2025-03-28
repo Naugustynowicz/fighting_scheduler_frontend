@@ -8,7 +8,7 @@ export default function EventList() {
   const events = useEvents();
 
   return (
-    <section class='event-list'>
+    <div title='List of Events'>
       <h2>List of Events</h2>
       <ul>
         {events.map(event => (
@@ -17,7 +17,7 @@ export default function EventList() {
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
 
@@ -60,7 +60,7 @@ function Event({ event }) {
   }
 
   return (
-    <section class='event'>
+    <div class='event'>
       {eventContent}
       <div class='button'>
         <button onClick={() => {
@@ -95,6 +95,6 @@ function Event({ event }) {
           Delete
         </button>
       </div>
-    </section>
+    </div>
   );
 }

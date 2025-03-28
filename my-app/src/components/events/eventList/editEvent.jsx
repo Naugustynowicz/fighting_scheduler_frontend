@@ -5,8 +5,9 @@ export default function EditEvent({event}){
   const dispatch = useEventsDispatch();
   let eventContent;
   eventContent = (
-    <section>
-      <div class='container'>
+    <div title='Editing information'>
+      <h3>Editing information</h3>
+      <div>
       <input
         placeholder="startDate"
         value={event.startDate}
@@ -232,7 +233,7 @@ export default function EditEvent({event}){
         Save
       </button>
       </div>
-    </section>
+    </div>
   );
 
   return eventContent;
