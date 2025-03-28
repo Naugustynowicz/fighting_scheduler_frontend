@@ -8,14 +8,12 @@ let initialSports = [
   {
     id: 1,
     name: 'Sport1',
-    description: 'This is a description',
-    status: 'public'
+    description: 'This is a description'
   },
   {
     id: 2,
     name: 'Sport2',
-    description: "It's one too",
-    status: 'public'
+    description: "It's one too"
   },
 ]
 
@@ -59,8 +57,7 @@ function sportsReducer(sports, action) {
       axios.post("http://localhost:3000/sports", {
         sport: {
           name: action.name,
-          description: action.description,
-          status: "public"
+          description: action.description
         }
       })
 
@@ -69,8 +66,7 @@ function sportsReducer(sports, action) {
         {
           id: action.id,
           name: action.name,
-          description: action.description,
-          status: 'public'
+          description: action.description
         },
       ];
     }

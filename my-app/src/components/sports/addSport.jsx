@@ -9,7 +9,8 @@ export default function AddSport() {
 
   let nextId = useSports().length + 1;
   return (
-    <div class='container'>
+    <div title='Create new sport'>
+      <h2>Create new sport</h2>
       <input
         placeholder="name"
         value={name}
@@ -28,8 +29,7 @@ export default function AddSport() {
           type: 'added',
           id: nextId++,
           name: name,
-          description: description,
-          status: 'public'
+          description: description
         });
       }}>Add</button>
     </div>

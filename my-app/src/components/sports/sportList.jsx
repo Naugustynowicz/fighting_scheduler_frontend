@@ -5,7 +5,7 @@ export default function SportList() {
   const sports = useSports();
 
   return (
-    <section>
+    <div title='List of Sports'>
       <h2>List of Sports</h2>
       <ul>
         {sports.map(sport => (
@@ -14,7 +14,7 @@ export default function SportList() {
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
 
@@ -24,40 +24,41 @@ function Sport({ sport }) {
   let sportContent;
   if (isEditing) {
     sportContent = (
-      <section name='Editing_sport_information'>
-      <div>
-        <input value={sport.name} placeholder='name' onChange={e => {
-          dispatch({ type: 'changed', sport: {
-            ...sport,
-            name: e.target.value
-          } });
-        }} />
-        <input type='text' value={sport.description} placeholder='description' onChange={e => {
-          dispatch({ type: 'changed', sport: {
-            ...sport,
-            description: e.target.value
-          } });
-        }} />
+      <div title='Editing information'>
+        <h3>Editing information</h3>
+        <div>
+          <input value={sport.name} placeholder='name' onChange={e => {
+            dispatch({ type: 'changed', sport: {
+              ...sport,
+              name: e.target.value
+            } });
+          }} />
+          <input type='text' value={sport.description} placeholder='description' onChange={e => {
+            dispatch({ type: 'changed', sport: {
+              ...sport,
+              description: e.target.value
+            } });
+          }} />
+        </div>
+        <div>
+          <button onClick={() => {
+            dispatch({
+              type: 'commitChanges',
+              id: sport.id,
+              name: sport.name,
+              description: sport.description
+            });
+            setIsEditing(false)
+          }}>
+            Save
+          </button>
+        </div>
       </div>
-      <div>
-        <button onClick={() => {
-          dispatch({
-            type: 'commitChanges',
-            id: sport.id,
-            name: sport.name,
-            description: sport.description
-          });
-          setIsEditing(false)
-        }}>
-          Save
-        </button>
-      </div>
-      </section>
     );
   } else {
     sportContent = (
       <div>
-        <h2>{sport.name}</h2>
+        <h3>{sport.name}</h3>
         <p>
           {sport.description}
         </p>
@@ -66,7 +67,7 @@ function Sport({ sport }) {
   }
 
   return (
-    <section>
+    <div>
       {sportContent}
       <div>
         <button label='Edit' onClick={() => {
@@ -81,6 +82,6 @@ function Sport({ sport }) {
           Delete
         </button>
       </div>
-    </section>
+    </div>
   );
 }

@@ -8,6 +8,9 @@ import SportList from "./sports/sportList";
 export default function Sports(){
   return (
       <SportsProvider>
+        <head>
+          <title>Sports</title>
+        </head>
         <NavBar />
         <main>
           <h1>Sports</h1>
