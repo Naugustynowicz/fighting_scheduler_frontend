@@ -10,7 +10,7 @@ describe('Sports Component', () => {
     vi.clearAllMocks();
   });
 
-  describe('when the API call is successful', () => {
+  describe('when the API calls are successful', () => {
     const mockSportList = [
       {
         id: 1,
