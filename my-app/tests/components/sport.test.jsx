@@ -70,12 +70,36 @@ describe('Sports Component', () => {
       expect(axios.post).toHaveBeenCalledWith(sportsApiUrl, {sport: payload})
     })
 
-    it("respond correctly on user's actions", async () => {
+    it("User can modify sport informations", async () => {
+      const payload = {
+        description: 'blablabla',
+        name: "TestSport1" // TODO make patch request send only modifed value
+      }
       render( <Sports /> ); 
-      const button = screen.getAllByText('Edit', {selector: 'button'})[0];
-      fireEvent.click(button);
-      const element = await waitFor(() => screen.getByText('Editing information'))
-      expect(element).toBeInTheDocument();
+
+      const editButton = screen.getAllByText('Edit', {selector: 'button'})[0];
+      fireEvent.click(editButton);
+      const editSportElm = await waitFor(() => screen.getByTitle('Editing information'))
+      expect(editSportElm).toBeInTheDocument();
+      expect(within(editSportElm).getByText('Editing information', { selector: 'h3'})).toBeInTheDocument();
+
+      const descriptionInput = within(editSportElm).getByPlaceholderText('description', {selector: 'input'});
+      fireEvent.change(descriptionInput, {target: {value: payload.description}});
+      waitFor(() => {
+        expect(hasInputValue(descriptionInput, payload.description)).toBe(true);
+      })
+
+      const saveButton = screen.getByText('Save', {selector: 'button'});
+      fireEvent.click(saveButton);
+      expect(axios.patch).toHaveBeenCalledWith(sportsApiUrl + '/1', {sport: payload})
+    })
+
+    it("User can delete sport", async () => {
+      render( <Sports /> ); 
+
+      const deleteButton = screen.getAllByText('Delete', {selector: 'button'})[0];
+      fireEvent.click(deleteButton);
+      expect(axios.delete).toHaveBeenCalledWith(sportsApiUrl + '/1')
     })
   })
 })
