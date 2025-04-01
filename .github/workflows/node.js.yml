@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ../my-app
+        working-directory: ./my-app
 
     strategy:
       matrix:
