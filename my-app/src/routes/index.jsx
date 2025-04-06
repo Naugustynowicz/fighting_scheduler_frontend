@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Event from "../components/event";
 import Events from "../components/events";
 import Login from "../components/login";
 import Logout from "../components/logout";
@@ -23,9 +24,9 @@ export function Routes(){
       { path: "/profile", element: <div>User Profile</div>,   },
       { path: "/logout",  element: <Logout />,                },
       { path: "/sports",  element: <Sports />,                },
-      { path: "/events",  element: <Events />,               },
-      ],
-    },
+      { path: "/events",  element: <Events />,                },
+      { path: "/event/:id",  element: <Event />,              },
+    ], },
   ];
 
   const router = createBrowserRouter([

@@ -48,6 +48,8 @@ h6 {
 nav {
   background-color: #34495e;
   padding: 10px;
+  display: inline-flex;
+  width: 100%;
 }
 
 nav ul {
