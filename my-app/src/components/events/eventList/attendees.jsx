@@ -20,18 +20,18 @@ let initialAttendees = [
 
 export default function Attendees({event_id}) {
   const [attendees, dispatch] = useReducer(attendeesReducer, initialAttendees);
-  const const_event_id = event_id;
+  // let event_id = event_id;
 
   useEffect(() => {
       let ignore = false;
-      axios.get(`http://localhost:3000/events/${const_event_id}/attendees`)
+      axios.get(`http://localhost:3000/events/${event_id}/attendees`)
       .then(res => {
         if(!ignore){
           dispatch({type: 'fetched', attendees: res.data})
         }
       })
       return () => ignore = true;
-    }, [])
+    }, [event_id])
 
   return (
     <div title="Attendees' List">

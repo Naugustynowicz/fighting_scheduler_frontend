@@ -5,8 +5,7 @@ import { useParams } from "react-router-dom";
 export const EventContext = createContext(null);
 export const EventDispatchContext = createContext(null);
 
-let initEvent = [
-  {
+let initEvent = {
     id: 1,
     startDate: '18/02/2025',
     endDate: '18/02/2025',
@@ -23,8 +22,7 @@ let initEvent = [
     locationId: 'String for now',
     sportId: '12345',
     typeEventId: 'WIP'
-  },
-]
+  }
 
 export function EventProvider({ children }){
   const [event, dispatch] = useReducer(eventReducer, initEvent);
@@ -32,7 +30,7 @@ export function EventProvider({ children }){
 
   useEffect(() => {
     let ignore = false;
-    axios.get(`http://localhost:3000/Events/${id}`)
+    axios.get(`http://localhost:3000/events/${id}`)
     .then(res => {
       if(!ignore){
         dispatch({type: 'fetched', event: res.data})
@@ -61,26 +59,25 @@ export function useEventDispatch() {
 function eventReducer(event, action) {
   switch (action.type) {
     case 'fetched': {
-      return (
-        {
-          id: action.event.id,
-          startDate: action.event.start_date,
-          endDate: action.event.end_date,
-          attendeesNb: action.event.attendees_nb,
-          venueFee: action.event.venue_fee,
-          requiredScore: action.event.required_score,
-          name: action.event.name,
-          description: action.event.description,
-          rules: action.event.rules,
-          schedule: action.event.schedule,
-          bracket: action.event.bracket,
-          userId: action.event.user_id,
-          statusId: action.event.status_id,
-          locationId: action.event.location_id,
-          sportId: action.event.sport_id,
-          typeEventId: action.event.typeEvent_id
-        }
-      )
+      let fetchedEvent = {
+        id: action.event.id,
+        startDate: action.event.start_date,
+        endDate: action.event.end_date,
+        attendeesNb: action.event.attendees_nb,
+        venueFee: action.event.venue_fee,
+        requiredScore: action.event.required_score,
+        name: action.event.name,
+        description: action.event.description,
+        rules: action.event.rules,
+        schedule: action.event.schedule,
+        bracket: action.event.bracket,
+        userId: action.event.user_id,
+        statusId: action.event.status_id,
+        locationId: action.event.location_id,
+        sportId: action.event.sport_id,
+        typeEventId: action.event.typeEvent_id
+      }
+      return fetchedEvent;
     }
     case 'changed': {
       return Event.map((event) => {
@@ -92,7 +89,7 @@ function eventReducer(event, action) {
       });
     }
     case 'commitChanges': {
-      axios.patch(`http://localhost:3000/Events/${action.id}`, { 
+      axios.patch(`http://localhost:3000/events/${action.id}`, { 
         event: {
           id: action.id,
           start_date: action.startDate,
@@ -113,12 +110,12 @@ function eventReducer(event, action) {
       return Event;
     }
     case 'deleted': {
-      axios.delete(`http://localhost:3000/Events/${action.id}`);
+      axios.delete(`http://localhost:3000/events/${action.id}`);
 
       return Event.filter((event) => event.id !== action.id);
     } 
     case 'subscribed': {
-      axios.get(`http://localhost:3000/Events/${action.id}/subscribe`);
+      axios.get(`http://localhost:3000/events/${action.id}/subscribe`);
 
       return Event;
     } 

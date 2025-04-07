@@ -5,18 +5,18 @@ let initialTreeBracket = []
 
 export default function TreeBracket({event_id}) {
   const [treeBracket, dispatch] = useReducer(treeBracketReducer, initialTreeBracket);
-  const const_event_id = event_id;
+  // let event_id = event_id;
 
   useEffect(() => {
     let ignore = false;
-    axios.get(`http://localhost:3000/events/${const_event_id}/display_tree_bracket`)
+    axios.get(`http://localhost:3000/events/${event_id}/display_tree_bracket`)
     .then(res => {
       if(!ignore){
         dispatch({type: 'fetched', treeBracket: res.data})
       }
     })
     return () => ignore = true;
-  }, [treeBracket])
+  }, [event_id])
 
   function displayTree(tree){
     if(!tree) return;
@@ -28,38 +28,38 @@ export default function TreeBracket({event_id}) {
     let displayedWinner = (<></>)
     if('winner_id' in tree){
       displayedWinner = (
-        <div>
+        <>
           <p><em>winner_id: {tree['winner_id']}</em></p>
           <button onClick={() => { dispatch({ type: 'updateMatch', match_id: tree['id'] }); }}>
             update match
           </button>
-        </div>
+        </>
       )
     }
     let displayedUser1 = (<></>)
     if('user1_id' in tree){
       displayedUser1 = (
-        <div>
+        <>
           <p>user1_id: {tree['user1_id']}</p>
           <p>user1_name: {tree['user1_name']}</p>
           <p>user1_email: {tree['user1_email']}</p>
           <button onClick={() => { dispatch({ type: 'setWinner', match_id: tree['id'], winning_user_id: tree['user1_id'] }); }}> 
             Set as winner 
           </button>
-        </div>
+        </>
       )
     }
     let displayedUser2 = (<></>)
     if('user2_id' in tree){
       displayedUser2 = (
-        <div>
+        <>
           <p>user2_id: {tree['user2_id']}</p>
           <p>user2_name: {tree['user2_name']}</p>
           <p>user2_email: {tree['user2_email']}</p>
           <button onClick={() => { dispatch({ type: 'setWinner', match_id: tree['id'], winning_user_id: tree['user2_id'] }); }}> 
             Set as winner 
           </button>
-        </div>
+        </>
       )
     }
     let displayedSubmatch1 = (<></>)
@@ -72,22 +72,30 @@ export default function TreeBracket({event_id}) {
     }
   
     return(
-      <div class='tree-bracket'>
-        {displayedSubmatch1}
-        {displayedId}
-        {displayedWinner}
-        {displayedUser1}
-        {displayedUser2}
-        {displayedSubmatch2}
+      <div className='grid grid-cols-2'>
+        <div className='grid grid-rows-2'>
+          <div>
+          {displayedUser1}
+          {displayedSubmatch1}
+          </div>
+          <div>
+          {displayedUser2}
+          {displayedSubmatch2}
+          </div>
+        </div>
+        <div>
+          {displayedId}
+          {displayedWinner}
+        </div>
       </div>
     )
   }
 
   return (
-    <div title='Bracket'>
+    <div className='overflow-scroll'> 
       <h3>Bracket</h3>
       {displayTree(treeBracket)}
-      <button onClick={() => { dispatch({ type: 'generateTreeBracket', event_id: const_event_id }); }}>
+      <button onClick={() => { dispatch({ type: 'generateTreeBracket', event_id: event_id }); }}>
         generate bracket
       </button> 
     </div>
