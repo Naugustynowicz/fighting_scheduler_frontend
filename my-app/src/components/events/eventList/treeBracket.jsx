@@ -73,17 +73,17 @@ export default function TreeBracket({event_id}) {
   
     return(
       <div className='grid grid-cols-2'>
-        <div className='grid grid-rows-2'>
-          <div>
+        <div className='grid grid-rows-2 place-content-center'>
+          <div className='place-content-center'>
           {displayedUser1}
           {displayedSubmatch1}
           </div>
-          <div>
+          <div className='place-content-center'>
           {displayedUser2}
           {displayedSubmatch2}
           </div>
         </div>
-        <div>
+        <div className='place-content-center'>
           {displayedId}
           {displayedWinner}
         </div>
