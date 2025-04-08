@@ -1,6 +1,11 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Circuit from "../components/circuit";
+import Circuits from "../components/circuits";
+import Club from "../components/club";
+import Clubs from "../components/clubs";
 import Event from "../components/event";
 import Events from "../components/events";
+import Locations from "../components/locations";
 import Login from "../components/login";
 import Logout from "../components/logout";
 import Sports from "../components/sports";
@@ -24,8 +29,13 @@ export function Routes(){
       { path: "/profile", element: <div>User Profile</div>,   },
       { path: "/logout",  element: <Logout />,                },
       { path: "/sports",  element: <Sports />,                },
+      { path: "/locations",  element: <Locations />,                },
       { path: "/events",  element: <Events />,                },
       { path: "/event/:id",  element: <Event />,              },
+      { path: "/circuits",  element: <Circuits />,                },
+      { path: "/circuit/:id",  element: <Circuit />,              },
+      { path: "/clubs",  element: <Clubs />,                },
+      { path: "/club/:id",  element: <Club />,              },
     ], },
   ];
 
