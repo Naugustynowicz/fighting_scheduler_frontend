@@ -7,21 +7,7 @@ export const EventDispatchContext = createContext(null);
 
 let initEvent = {
     id: 1,
-    startDate: '18/02/2025',
-    endDate: '18/02/2025',
-    attendeesNb: '1000',
-    venueFee: '10,00€',
-    requiredScore: '10',
-    name: 'Event1',
-    description: 'This is a description',
-    rules: 'Not the fun part',
-    schedule: 'For spectators mainly',
-    bracket: "Don't ask.",
-    userId: 'For now a string',
-    statusId: 'String for now',
-    locationId: 'String for now',
-    sportId: '12345',
-    typeEventId: 'WIP'
+    name: 'Event1'
   }
 
 export function EventProvider({ children }){
@@ -80,13 +66,7 @@ function eventReducer(event, action) {
       return fetchedEvent;
     }
     case 'changed': {
-      return Event.map((event) => {
-        if (event.id === action.event.id) {
-          return action.event;
-        } else {
-          return event;
-        }
-      });
+      return action.event;
     }
     case 'commitChanges': {
       axios.patch(`http://localhost:3000/events/${action.id}`, { 
@@ -107,17 +87,17 @@ function eventReducer(event, action) {
           type_event_id: action.typeEventId
         }
       });
-      return Event;
+      return event;
     }
     case 'deleted': {
       axios.delete(`http://localhost:3000/events/${action.id}`);
 
-      return Event.filter((event) => event.id !== action.id);
+      return event.filter((event) => event.id !== action.id);
     } 
     case 'subscribed': {
       axios.get(`http://localhost:3000/events/${action.id}/subscribe`);
 
-      return Event;
+      return event;
     } 
     default: {
       throw Error('Unknown action: ' + action.type);

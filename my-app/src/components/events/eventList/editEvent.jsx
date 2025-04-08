@@ -1,8 +1,8 @@
 import React from 'react';
-import { useEventsDispatch } from '../../../providers/events';
+import { useEventDispatch } from '../../../providers/event';
 
 export default function EditEvent({event}){
-  const dispatch = useEventsDispatch();
+  const dispatch = useEventDispatch();
   let eventContent;
   eventContent = (
     <div title='Editing information'>
