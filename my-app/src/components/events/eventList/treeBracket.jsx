@@ -107,6 +107,9 @@ export default function TreeBracket({event_id}) {
 }
 
 function buildFetchedTree(fetchedTree){
+  if(fetchedTree.match === undefined){
+    return {};
+  }
   let buildedFetchedTree = {
     id: fetchedTree.match.id,
   }
