@@ -72,27 +72,31 @@ export default function TreeBracket({event_id}) {
     }
   
     return(
-      <div className='grid grid-cols-2'>
-        <div className='grid grid-rows-2 place-content-center'>
-          <div className='place-content-center'>
-          {displayedUser1}
-          {displayedSubmatch1}
-          </div>
-          <div className='place-content-center'>
-          {displayedUser2}
-          {displayedSubmatch2}
-          </div>
+      <div className='flex flex-row'>
+        <div>
+        {displayedSubmatch1}
+        {displayedSubmatch2}
         </div>
-        <div className='place-content-center'>
-          {displayedId}
-          {displayedWinner}
+        <div className='grid grid-cols-2 border-2 border-solid w-sm'>
+          <div className='grid grid-rows-2 place-content-center'>
+            <div className='place-content-center'>
+            {displayedUser1}
+            </div>
+            <div className='place-content-center'>
+            {displayedUser2}
+            </div>
+          </div>
+          <div className='place-content-center'>
+            {displayedId}
+            {displayedWinner}
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className='overflow-scroll'> 
+    <div className='overflow-x-auto '> 
       <h3>Bracket</h3>
       {displayTree(treeBracket)}
       <button onClick={() => { dispatch({ type: 'generateTreeBracket', event_id: event_id }); }}>
