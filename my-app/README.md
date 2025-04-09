@@ -1,16 +1,26 @@
-# Commands lines
-npm run dev
-npm run test:browser
+# Installation
+This project have been developped to be used as a frontend to the fighting scheduler API. You can run it localy or with docker.
 
-# React + Vite
+# Local
+To use this project, you need node.js and npm. Here, we will use apt package manager from linux to achieve it.All this project has been developped in "my-app" folder. You will need to go here to launch the following commands.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+install npm : 
+  $ sudo apt install npm
 
-Currently, two official plugins are available:
+install all project dependencies
+  $ npm install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+launch project in dev mode:
+  $ npm run dev
 
-## Expanding the ESLint configuration
+executes tests:
+  $ npm run test
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# with docker
+All this project has been developped in "my-app" folder. You will need to go here to launch the following commands.
+
+build & launch project:
+  docker compose up --build
+
+
+
