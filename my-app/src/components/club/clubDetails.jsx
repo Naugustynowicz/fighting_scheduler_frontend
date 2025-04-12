@@ -1,36 +1,40 @@
 import React from "react";
 import { useClub, useClubDispatch } from "../../providers/club";
 import EditClub from "../clubs/clubList/editClub";
+import ChoseEvent from "./choseEvent";
+import ListEventsClub from "./listEventsClub";
 
 export default function ClubDetails(){
-  const club = useClub();
+  const context = useClub();
   const dispatch = useClubDispatch();
 
   return (
     <div>
       <h1>Club details</h1>
       <div>
-        <p>{club.id}</p>
-        <p>{club.startDate}</p>
-        <p>{club.endDate}</p>
-        <p>{club.attendeesNb}</p>
-        <p>{club.venueFee}</p>
-        <p>{club.requiredScore}</p>
-        <h3>{club.name}</h3>
-        <p>{club.description}</p>
-        <p>{club.rules}</p>
-        <p>{club.schedule}</p>
-        <p>{club.brackets}</p>
-        <p>{club.userId}</p>
-        <p>{club.statusId}</p>
-        <p>{club.locationId}</p>
-        <p>{club.sportId}</p>
-        <p>{club.typeClubId}</p>
+        <p>{context.club.id}</p>
+        <p>{context.club.startDate}</p>
+        <p>{context.club.endDate}</p>
+        <p>{context.club.attendeesNb}</p>
+        <p>{context.club.venueFee}</p>
+        <p>{context.club.requiredScore}</p>
+        <h3>{context.club.name}</h3>
+        <p>{context.club.description}</p>
+        <p>{context.club.rules}</p>
+        <p>{context.club.schedule}</p>
+        <p>{context.club.brackets}</p>
+        <p>{context.club.userId}</p>
+        <p>{context.club.statusId}</p>
+        <p>{context.club.locationId}</p>
+        <p>{context.club.sportId}</p>
+        <p>{context.club.typeClubId}</p>
       </div>
-      <EditClub club={club} />
+      <EditClub club={context.club} />
+      <ListEventsClub context={context} />
+      <ChoseEvent club_id={context.club.id} />
       <div class='button'>
         <button onClick={() => dispatch(
-          { type: 'deleted', id: club.id }
+          { type: 'deleted', id: context.club.id }
         )}>
           Delete
         </button>

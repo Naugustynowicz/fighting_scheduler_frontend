@@ -5,13 +5,35 @@ import { useParams } from "react-router-dom";
 export const ClubContext = createContext(null);
 export const ClubDispatchContext = createContext(null);
 
-let initClub = {
+let initContext = {
+  club: {
     id: 1,
     name: 'Club1'
+  },
+  events: [
+    {
+      id: 1,
+      startDate: '18/02/2025',
+      endDate: '18/02/2025',
+      attendeesNb: '1000',
+      venueFee: '10,00€',
+      requiredScore: '10',
+      name: 'Event1',
+      description: 'This is a description',
+      rules: 'Not the fun part',
+      schedule: 'For spectators mainly',
+      bracket: "Don't ask.",
+      userId: 'For now a string',
+      statusId: 'String for now',
+      locationId: 'String for now',
+      sportId: '12345',
+      typeEventId: 'WIP'
+    },
+  ]
   }
 
 export function ClubProvider({ children }){
-  const [club, dispatch] = useReducer(clubReducer, initClub);
+  const [context, dispatch] = useReducer(clubReducer, initContext);
   let { id } = useParams();
 
   useEffect(() => {
@@ -22,11 +44,19 @@ export function ClubProvider({ children }){
         dispatch({type: 'fetched', club: res.data})
       }
     })
+
+    axios.get(`http://localhost:3000/clubs/${id}/list_events`)
+    .then(res => {
+      if(!ignore){
+        dispatch({type: 'fetch_events', events: res.data})
+      }
+    })
+
     return () => ignore = true;
   }, [])
 
   return(
-    <ClubContext.Provider value={club}>
+    <ClubContext.Provider value={context}>
       <ClubDispatchContext.Provider value={dispatch}>
         { children }
       </ClubDispatchContext.Provider>
@@ -42,7 +72,7 @@ export function useClubDispatch() {
   return useContext(ClubDispatchContext);
 }
 
-function clubReducer(club, action) {
+function clubReducer(context, action) {
   switch (action.type) {
     case 'fetched': {
       let fetchedClub = {
@@ -63,10 +93,35 @@ function clubReducer(club, action) {
         sportId: action.club.sport_id,
         typeClubId: action.club.typeClub_id
       }
-      return fetchedClub;
+      return { ...context, club: fetchedClub };
+    }
+    case 'fetch_events': {
+      let fetchedEvents = action.events.map((fetchedEvent) => {
+        return (
+          {
+            id: fetchedEvent.id,
+            startDate: fetchedEvent.start_date,
+            endDate: fetchedEvent.end_date,
+            attendeesNb: fetchedEvent.attendees_nb,
+            venueFee: fetchedEvent.venue_fee,
+            requiredScore: fetchedEvent.required_score,
+            name: fetchedEvent.name,
+            description: fetchedEvent.description,
+            rules: fetchedEvent.rules,
+            schedule: fetchedEvent.schedule,
+            bracket: fetchedEvent.bracket,
+            userId: fetchedEvent.user_id,
+            statusId: fetchedEvent.status_id,
+            locationId: fetchedEvent.location_id,
+            sportId: fetchedEvent.sport_id,
+            typeEventId: fetchedEvent.typeEvent_id
+          }
+        )
+      })
+      return {...context, events: fetchedEvents};
     }
     case 'changed': {
-      return action.club;
+      return {...context, club: action.club};
     }
     case 'commitChanges': {
       axios.patch(`http://localhost:3000/clubs/${action.id}`, { 
@@ -87,17 +142,17 @@ function clubReducer(club, action) {
           type_club_id: action.typeClubId
         }
       });
-      return club;
+      return {...context, club: club};
     }
     case 'deleted': {
       axios.delete(`http://localhost:3000/clubs/${action.id}`);
 
-      return club.filter((club) => club.id !== action.id);
+      return {...context, club: context.club.filter((club) => club.id !== action.id)};
     } 
     case 'subscribed': {
       axios.get(`http://localhost:3000/clubs/${action.id}/subscribe`);
 
-      return club;
+      return context;
     } 
     default: {
       throw Error('Unknown action: ' + action.type);
