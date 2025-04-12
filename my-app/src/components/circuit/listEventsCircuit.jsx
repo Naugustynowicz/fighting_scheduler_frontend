@@ -1,13 +1,16 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useReducer } from 'react';
 
-export default function ListEventsCircuit({events}){
+let initEvents = []
+
+export default function ListEventsCircuit({context}){
   return (
     <div title='List of Events'>
       <h2>List of Events</h2>
       <ul>
-        {events.map(event => (
+        {context.events.map(event => (
           <li key={event.id}>
-            <Event event={event} />
+            <Event event={event} circuit_id={context.circuit.id} />
           </li>
         ))}
       </ul>
@@ -15,7 +18,9 @@ export default function ListEventsCircuit({events}){
   );
 }
 
-function Event({ event }) {
+function Event({ event, circuit_id }) {
+  const [events, dispatch] = useReducer(eventsReducer, initEvents);
+
   let eventContent;
   eventContent = (
       <div>
@@ -34,6 +39,11 @@ function Event({ event }) {
         <p>{event.locationId}</p>
         <p>{event.sportId}</p>
         <p>{event.typeEventId}</p>
+        <button onClick={() => { 
+          dispatch({ type: 'remove_event', event_id: event.id, circuit_id: circuit_id })
+        }}>
+          Remove from circuit
+        </button>
       </div>
     );
 
@@ -42,5 +52,24 @@ function Event({ event }) {
       {eventContent}
     </div>
   );
+}
+
+function eventsReducer(events, action) {
+  switch (action.type) {
+    case 'remove_event': {
+      axios.patch(`http://localhost:3000/circuits/${action.circuit_id}/remove_event`,
+        {
+          circuit: {
+            event_id: action.event_id
+          }
+        }
+      );
+
+      return events;
+    } 
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
 }
 

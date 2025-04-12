@@ -1,6 +1,7 @@
 import React from "react";
 import { useCircuit, useCircuitDispatch } from "../../providers/circuit";
 import EditCircuit from "../circuits/circuitList/editCircuit";
+import ChoseEvent from "./choseEvent";
 import ListEventsCircuit from "./listEventsCircuit";
 
 export default function CircuitDetails(){
@@ -29,7 +30,8 @@ export default function CircuitDetails(){
         <p>{context.circuit.typeCircuitId}</p>
       </div>
       <EditCircuit circuit={context.circuit} />
-      <ListEventsCircuit events={context.events} />
+      <ListEventsCircuit context={context} />
+      <ChoseEvent circuit_id={context.circuit.id} />
       <div class='button'>
         <button onClick={() => dispatch(
           { type: 'deleted', id: context.circuit.id }
