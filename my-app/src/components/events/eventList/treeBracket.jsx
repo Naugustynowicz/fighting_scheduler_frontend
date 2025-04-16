@@ -96,7 +96,7 @@ export default function TreeBracket({event_id}) {
   }
 
   return (
-    <div className='overflow-x-auto '> 
+    <div className='overflow-x-auto ' title='Bracket'> 
       <h3>Bracket</h3>
       {displayTree(treeBracket)}
       <button onClick={() => { dispatch({ type: 'generateTreeBracket', event_id: event_id }); }}>

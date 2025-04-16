@@ -1,12 +1,13 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axios from 'axios';
+import Event from '../../src/components/event';
 import Events from '../../src/components/events';
 
 vi.mock('axios');
 const eventsApiUrl = 'http://localhost:3000/events'
 const matchesApiUrl = "http://localhost:3000/matches"
 
-describe('Events Component', () => {
+describe('Events Components', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -83,6 +84,72 @@ describe('Events Component', () => {
       fireEvent.click(within(addEventElm).getByText('Add', {selector: 'button'}));
       expect(axios.post).toHaveBeenCalledWith(eventsApiUrl, {event: payload})
     })
+  })
+})
+
+describe('Event Components', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe('when the API calls are successful', () => {
+    const mockEvent = {
+      id: 1,
+      name: 'TestEvent1',
+      description: 'TestDescription1'
+    }
+
+    const mockAttendeeList = [
+      {
+        id: 1,
+        name: 'TestAttendee1',
+        other: 'Some infos here'
+      },
+      {
+        id: 2,
+        name: 'TestAttendee2',
+        other: "Some others info here"
+      },
+    ];
+
+    const mockBracket = [
+      {id: null}
+    ]
+
+    beforeEach(() => {
+      axios.get.mockImplementation((url) => {
+        switch (url) {
+          case eventsApiUrl + '/' + mockEvent.id:
+            return Promise.resolve({data: mockEvent})
+          case eventsApiUrl + '/' + mockEvent.id + '/attendees':
+            return Promise.resolve({data: mockAttendeeList})
+          case eventsApiUrl + '/' + mockEvent.id + '/display_tree_bracket':
+            return Promise.resolve({data: mockBracket})
+          default:
+            return Promise.reject(new Error('not found'))
+        }
+      })
+    });
+
+    it("render component correctly", () => {
+      render( <Event /> );
+      
+      const editingInfosElm = screen.getByTitle('Editing information');
+      expect(editingInfosElm).toBeInTheDocument();
+      expect(within(editingInfosElm).getByText('Editing information', {selector: 'h3'})).toBeInTheDocument();
+      expect(within(editingInfosElm).getByPlaceholderText('name', {selector: 'input'})).toBeInTheDocument();
+      expect(within(editingInfosElm).getByPlaceholderText('description', {selector: 'input'})).toBeInTheDocument();
+      expect(within(editingInfosElm).getByText('Save', {selector: 'button'})).toBeInTheDocument();
+
+      const attendeesListElm = screen.getByTitle("Attendees' List");
+      expect(attendeesListElm).toBeInTheDocument();
+      expect(within(attendeesListElm).getByText("Attendees' List", {selector: 'h3'})).toBeInTheDocument();
+      expect(within(attendeesListElm).getByText(mockAttendeeList[0].name, {selector: 'li'})).toBeInTheDocument();
+
+      const bracketElm = screen.getByTitle("Bracket");
+      expect(bracketElm).toBeInTheDocument();
+      expect(within(bracketElm).getByText("Bracket", {selector: 'h3'})).toBeInTheDocument();
+    })
 
     it("User can modify event informations", async () => {
       const payload = {
@@ -101,7 +168,7 @@ describe('Events Component', () => {
         sport_id: undefined,
         type_event_id: undefined
       }
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       const editButton = screen.getAllByText('Edit', {selector: 'button'})[0];
       fireEvent.click(editButton);
@@ -121,7 +188,7 @@ describe('Events Component', () => {
     })
 
     it("User can delete event", async () => {
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       const deleteButton = screen.getAllByText('Delete', {selector: 'button'})[0];
       fireEvent.click(deleteButton);
@@ -129,31 +196,13 @@ describe('Events Component', () => {
     })
 
     it("User can subscribe to an event", () => {
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       fireEvent.click(screen.getAllByText('Subscribe', {selector: 'button'})[0])
       expect(axios.get).toHaveBeenCalledWith(eventsApiUrl + '/1/subscribe')
     })
 
     it("User can see an event attendees list", () => {
-      const mockAttendeeList = [
-        {
-          id: 1,
-          name: 'TestAttendee1',
-          other: 'Some infos here'
-        },
-        {
-          id: 2,
-          name: 'TestAttendee2',
-          other: "Some others info here"
-        },
-      ];
-      render( <Events /> ); 
-
-      axios.get.mockResolvedValue({ data: mockAttendeeList });
-      fireEvent.click(screen.getAllByText('Attendees', {selector: 'button'})[0])
-      expect(axios.get).toHaveBeenCalledWith(eventsApiUrl + '/1/attendees')
-
       const attendeeListElm = screen.getByTitle("Attendees' List");
       expect(attendeeListElm).toBeInTheDocument();
       expect(within(attendeeListElm).getByText("Attendees' List", {selector: 'h3'})).toBeInTheDocument();
@@ -263,7 +312,7 @@ describe('Events Component', () => {
           }
         }
       };
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       axios.get.mockResolvedValue({ data: mockBracket });
       fireEvent.click(screen.getAllByText('Bracket', {selector: 'button'})[0])
@@ -381,7 +430,7 @@ describe('Events Component', () => {
           }
         }
       };
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       axios.get.mockResolvedValue({ data: mockBracket });
       fireEvent.click(screen.getAllByText('Bracket', {selector: 'button'})[0])
@@ -503,7 +552,7 @@ describe('Events Component', () => {
           }
         }
       };
-      render( <Events /> ); 
+      render( <Event /> ); 
 
       axios.get.mockResolvedValue({ data: mockBracket });
       fireEvent.click(screen.getAllByText('Bracket', {selector: 'button'})[0])

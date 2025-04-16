@@ -9,7 +9,7 @@ export default function EventDetails(){
   const dispatch = useEventDispatch();
 
   return (
-    <div>
+    <div title='Event details'>
       <h1>Event details</h1>
       <div>
         <p>{event.id}</p>
