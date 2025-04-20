@@ -5,7 +5,7 @@ export default function EditEvent({event}){
   const dispatch = useEventDispatch();
   let eventContent;
   eventContent = (
-    <div title='Editing information'>
+    <form title='Editing information'>
       <h3>Editing information</h3>
       <div>
       <input
@@ -143,19 +143,6 @@ export default function EditEvent({event}){
         }} 
       />
       <input
-        placeholder="userId"
-        value={event.userId}
-        onChange={e => {
-          dispatch({
-            type: 'changed',
-            event: {
-              ...event,
-              userId: e.target.value
-            }
-          });
-        }} 
-      />
-      <input
         placeholder="statusId"
         value={event.statusId}
         onChange={e => {
@@ -223,7 +210,6 @@ export default function EditEvent({event}){
           rules: event.rules,
           schedule: event.schedule,
           brackets: event.brackets,
-          userId: event.userId,
           statusId: event.statusId,
           locationId: event.locationId,
           sportId: event.sportId,
@@ -233,7 +219,7 @@ export default function EditEvent({event}){
         Save
       </button>
       </div>
-    </div>
+    </form>
   );
 
   return eventContent;

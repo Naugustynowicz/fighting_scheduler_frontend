@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, } from 'react';
 
 let initialTreeBracket = []
 
@@ -166,8 +166,10 @@ function treeBracketReducer(treeBracket, action) {
         match: {
           winner: action.winning_user_id
         }
+      }).then(res => {
+        dispatch({type: 'fetched', treeBracket: res.data})
       });
-      return;
+      return treeBracket;
     }
     case 'updateMatch': {
       axios.get(`http://localhost:3000/matches/${action.match_id}/update_match`)

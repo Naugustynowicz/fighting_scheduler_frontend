@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEvent, useEventDispatch } from "../../providers/event";
 import Attendees from "../events/eventList/attendees";
 import EditEvent from "../events/eventList/editEvent";
@@ -7,43 +7,58 @@ import TreeBracket from "../events/eventList/treeBracket";
 export default function EventDetails(){
   const event = useEvent();
   const dispatch = useEventDispatch();
+  const [menu, setMenu] = useState('');
 
-  return (
-    <div title='Event details'>
-      <h1>Event details</h1>
+  const buttonBar = (
+    <div>
+      <button onClick={() => { 
+          dispatch({ type: 'subscribed', id: event.id })
+      }}>Subscribe</button>
+      <button onClick={ () => {
+        menu === 'edit' ? setMenu('') : setMenu('edit')
+      }}>Edit</button>
+      <button onClick={() => dispatch(
+          { type: 'deleted', id: event.id }
+      )}>Delete</button>
+    </div>
+  )
+
+  let editEvent;
+  if(menu === 'edit'){
+    editEvent = (
+      <EditEvent event={event} />
+    )
+  } else {
+    editEvent = (
       <div>
-        <p>{event.id}</p>
-        <p>{event.startDate}</p>
-        <p>{event.endDate}</p>
-        <p>{event.attendeesNb}</p>
-        <p>{event.venueFee}</p>
-        <p>{event.requiredScore}</p>
         <h3>{event.name}</h3>
+        <p>From {event.startDate} to {event.endDate}</p>
+
         <p>{event.description}</p>
         <p>{event.rules}</p>
         <p>{event.schedule}</p>
-        <p>{event.brackets}</p>
-        <p>{event.userId}</p>
-        <p>{event.statusId}</p>
+
+        <p>{event.attendeesNb}</p>
+        <p>{event.venueFee}</p>
+        <p>{event.requiredScore}</p>
+        
         <p>{event.locationId}</p>
         <p>{event.sportId}</p>
         <p>{event.typeEventId}</p>
       </div>
-      <EditEvent event={event} />
+    )
+  }
+
+
+
+  return (
+    <div title='Event details'>
+      <h1>Event details</h1>
+      {buttonBar}
+      {editEvent}
       <Attendees event_id={event.id} />
       <TreeBracket event_id={event.id} />
-      <div class='button'>
-        <button onClick={() => { 
-          dispatch({ type: 'subscribed', id: event.id })
-        }}>
-          Subscribe
-        </button>
-        <button onClick={() => dispatch(
-          { type: 'deleted', id: event.id }
-        )}>
-          Delete
-        </button>
-      </div>
+      {buttonBar}
     </div>
   );
 }

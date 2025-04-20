@@ -1,13 +1,24 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 export const EventContext = createContext(null);
 export const EventDispatchContext = createContext(null);
 
 let initEvent = {
     id: 1,
-    name: 'Event1'
+    name: 'Event1',
+    description: '',
+    rules: '',
+    schedule: '',
+    brackets: '',
+    startDate: '',
+    endDate: '',
+    attendeesNb: '',
+    venueFee: '',
+    requiredScore: '',
+    locationId: '',
+    sportId: ''
   }
 
 export function EventProvider({ children }){
@@ -92,7 +103,7 @@ function eventReducer(event, action) {
     case 'deleted': {
       axios.delete(`http://localhost:3000/events/${action.id}`);
 
-      return event.filter((event) => event.id !== action.id);
+      return <Navigate to="/events" />;
     } 
     case 'subscribed': {
       axios.get(`http://localhost:3000/events/${action.id}/subscribe`);
