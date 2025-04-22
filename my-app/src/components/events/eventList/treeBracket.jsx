@@ -18,6 +18,20 @@ export default function TreeBracket({event_id}) {
     return () => ignore = true;
   }, [event_id])
 
+  async function setWinner(match_id, winning_user_id){
+    await axios.patch(`http://localhost:3000/matches/${match_id}/determine_winner`, { 
+      match: {
+        winner: winning_user_id
+      }
+    }).then(async () => {
+      await axios.get(`http://localhost:3000/events/${event_id}/display_tree_bracket`)
+      .then(res => {
+        dispatch({type: 'fetched', treeBracket: res.data})
+        }
+      )
+    });
+  }
+
   function displayTree(tree){
     if(!tree) return;
     let displayedId = (
@@ -43,7 +57,7 @@ export default function TreeBracket({event_id}) {
           <p>user1_id: {tree['user1_id']}</p>
           <p>user1_name: {tree['user1_name']}</p>
           <p>user1_email: {tree['user1_email']}</p>
-          <button onClick={() => { dispatch({ type: 'setWinner', match_id: tree['id'], winning_user_id: tree['user1_id'] }); }}> 
+          <button onClick={ () => setWinner(tree['id'], tree['user1_id']) }> 
             Set as winner 
           </button>
         </>
@@ -56,7 +70,7 @@ export default function TreeBracket({event_id}) {
           <p>user2_id: {tree['user2_id']}</p>
           <p>user2_name: {tree['user2_name']}</p>
           <p>user2_email: {tree['user2_email']}</p>
-          <button onClick={() => { dispatch({ type: 'setWinner', match_id: tree['id'], winning_user_id: tree['user2_id'] }); }}> 
+          <button onClick={() => setWinner(tree['id'], tree['user2_id'])  }> 
             Set as winner 
           </button>
         </>
@@ -169,11 +183,11 @@ function treeBracketReducer(treeBracket, action) {
       }).then(res => {
         dispatch({type: 'fetched', treeBracket: res.data})
       });
-      return treeBracket;
+      return ;
     }
     case 'updateMatch': {
       axios.get(`http://localhost:3000/matches/${action.match_id}/update_match`)
-      return;
+      return ;
     }
     default: {
       throw Error('Unknown action: ' + action.type);

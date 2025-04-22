@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useClub, useClubDispatch } from "../../providers/club";
 import EditClub from "../clubs/clubList/editClub";
-import ChoseEvent from "./choseEvent";
 import ListEventsClub from "./listEventsClub";
+import Trainees from "./trainees";
 
 export default function ClubDetails(){
   const context = useClub();
   const dispatch = useClubDispatch();
-
-  return (
+  const [menu, setMenu] = useState('');
+  
+  const buttonBar = (
     <div>
-      <h1>Club details</h1>
-      <div>
+      <button onClick={ () => {
+        menu === 'edit' ? setMenu('') : setMenu('edit')
+      }}>Edit</button>
+      <button onClick={() => dispatch(
+          { type: 'deleted', id: event.id }
+      )}>Delete</button>
+    </div>
+  )
+
+  let editClub;
+    if(menu === 'edit'){
+      editClub = (
+        <EditClub club={context.club} />
+      )
+    } else {
+      editClub = (
+        <div>
         <p>{context.club.id}</p>
         <p>{context.club.startDate}</p>
         <p>{context.club.endDate}</p>
@@ -29,16 +45,17 @@ export default function ClubDetails(){
         <p>{context.club.sportId}</p>
         <p>{context.club.typeClubId}</p>
       </div>
-      <EditClub club={context.club} />
+      )
+    }
+
+  return (
+    <div>
+      <h1>Club details</h1>
+      {buttonBar}
+      {editClub}
       <ListEventsClub context={context} />
-      <ChoseEvent club_id={context.club.id} />
-      <div class='button'>
-        <button onClick={() => dispatch(
-          { type: 'deleted', id: context.club.id }
-        )}>
-          Delete
-        </button>
-      </div>
+      <Trainees club_id={context.club.id} />
+      {buttonBar}
     </div>
   );
 }

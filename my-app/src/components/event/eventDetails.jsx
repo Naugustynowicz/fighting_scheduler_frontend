@@ -49,8 +49,6 @@ export default function EventDetails(){
     )
   }
 
-
-
   return (
     <div title='Event details'>
       <h1>Event details</h1>

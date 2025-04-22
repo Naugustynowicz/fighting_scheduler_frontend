@@ -1,12 +1,17 @@
 import axios from 'axios';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
+import ChoseEvent from './choseEvent';
 
 let initEvents = []
 
 export default function ListEventsClub({context}){
-  return (
-    <div title='List of Events'>
-      <h2>List of Events</h2>
+  const [trainingMenu, setTrainingMenu] = useState('');
+
+  let eventList;
+  if(trainingMenu === 'edit'){
+    eventList = (<ChoseEvent club_id={context.club.id} />)
+  } else {
+    eventList = (
       <ul>
         {context.events.map(event => (
           <li key={event.id}>
@@ -14,12 +19,23 @@ export default function ListEventsClub({context}){
           </li>
         ))}
       </ul>
+    )
+  }
+
+  return (
+    <div title='List of Events'>
+      <h2>List of Events</h2>
+      <button onClick={()=> trainingMenu === 'edit' ? setTrainingMenu('') : setTrainingMenu('edit')}>
+        Add training
+      </button>
+      {eventList}
     </div>
   );
 }
 
 function Event({ event, club_id }) {
   const [events, dispatch] = useReducer(eventsReducer, initEvents);
+  
 
   let eventContent;
   eventContent = (

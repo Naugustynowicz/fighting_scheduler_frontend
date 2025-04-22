@@ -150,7 +150,9 @@ function clubReducer(context, action) {
       return {...context, club: context.club.filter((club) => club.id !== action.id)};
     } 
     case 'subscribed': {
-      axios.get(`http://localhost:3000/clubs/${action.id}/subscribe`);
+      axios.patch(`http://localhost:3000/clubs/${action.id}/subscribe`, {
+        user_id: action.user_id
+      });
 
       return context;
     } 
