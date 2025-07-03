@@ -35,8 +35,19 @@ export default function ListEventsClub({context}){
 
 function Event({ event, club_id }) {
   const [events, dispatch] = useReducer(eventsReducer, initEvents);
-  
 
+  async function removeEvent(club_id, event_id){
+    await axios.patch(`http://localhost:3000/clubs/${club_id}/remove_training`,
+      {
+        club: {
+          event_id: event_id
+        }
+      }
+    ).then(res => {
+      dispatch({type: "remove_event", event: res.data})
+    })
+  }
+  
   let eventContent;
   eventContent = (
       <div>
@@ -56,7 +67,7 @@ function Event({ event, club_id }) {
         <p>{event.sportId}</p>
         <p>{event.typeEventId}</p>
         <button onClick={() => { 
-          dispatch({ type: 'remove_event', event_id: event.id, club_id: club_id })
+          removeEvent(club_id, event.id)
         }}>
           Remove from club
         </button>
@@ -73,15 +84,26 @@ function Event({ event, club_id }) {
 function eventsReducer(events, action) {
   switch (action.type) {
     case 'remove_event': {
-      axios.patch(`http://localhost:3000/clubs/${action.club_id}/remove_training`,
-        {
-          club: {
-            event_id: action.event_id
-          }
-        }
-      );
+      const removedEvent = {
+        id: action.event.id,
+        startDate: action.event.start_date,
+        endDate: action.event.end_date,
+        attendeesNb: action.event.attendees_nb,
+        venueFee: action.event.venue_fee,
+        requiredScore: action.event.required_score,
+        name: action.event.name,
+        description: action.event.description,
+        rules: action.event.rules,
+        schedule: action.event.schedule,
+        bracket: action.event.bracket,
+        userId: action.event.user_id,
+        statusId: action.event.status_id,
+        locationId: action.event.location_id,
+        sportId: action.event.sport_id,
+        typeEventId: action.event.typeEvent_id
+      }
 
-      return events;
+      return events.filter(event => event.id === removedEvent.id);
     } 
     default: {
       throw Error('Unknown action: ' + action.type);
